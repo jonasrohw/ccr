@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <strong>Supported:</strong> Claude Code · Codex · Gemini CLI · OpenCode
+  <strong>Supported:</strong> Claude Code · Codex · Gemini CLI · OpenCode · Antigravity CLI
 </p>
 
 <p align="center">
@@ -187,6 +187,7 @@ it where its tool stored it (`~/.claude/projects/...`, `~/.codex/sessions/...`,
 | `CCR_CODEX_DIR`       | Full path to Codex's `sessions/` dir                       |
 | `CCR_GEMINI_DIR`      | Full path to Gemini's `~/.gemini` root                     |
 | `CCR_OPENCODE_DIR`    | Full path to OpenCode's data dir (holds `opencode.db`)     |
+| `CCR_ANTIGRAVITY_DIR` | Full path to Antigravity CLI's `~/.gemini/antigravity-cli` root |
 | `CCR_BOOKMARKS_FILE`  | Override the `~/.ccr/bookmarks.json` location              |
 | `CCR_NICKNAMES_FILE`  | Override the `~/.ccr/nicknames.json` location              |
 
@@ -200,6 +201,14 @@ Each backend knows where its tool stores sessions and how to resume one.
 | Codex       | `~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl`          | `codex resume <uuid>` (cwd set)      |
 | Gemini CLI  | `~/.gemini/tmp/<project>/chats/session-*.json` + `projects.json` | `gemini --resume <N>` — ccr looks up the 1-based index at runtime via `gemini --list-sessions` |
 | OpenCode    | `~/.local/share/opencode/opencode.db` (SQLite, v2)      | `opencode --session <id>` (cwd set)  |
+| Antigravity CLI | `~/.gemini/antigravity-cli/conversation_summaries.db` + `conversations/<id>.db` | `agy --conversation <id>` (cwd set) |
+
+Antigravity support targets the `agy` CLI SQLite store. Install `agy` on your PATH.
+Sessions include user and assistant text for preview, search, export, and cross-tool
+handoff; tool steps and thinking are excluded. Databases are opened read-only.
+`ccr show <id>` prints step rows as JSONL with hex-encoded protobuf payloads.
+Legacy encrypted `.pb` files and IDE-only sessions are not supported. The protobuf
+layout is based on the installed CLI format and may change in future versions.
 
 OpenCode v2 keeps every session in one SQLite database that its background
 service writes continuously (WAL mode). `ccr` never opens the live database:

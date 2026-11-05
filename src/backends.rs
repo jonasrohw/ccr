@@ -7,6 +7,7 @@ use crate::session::{Session, Turn, append_searchable};
 use crate::util::pgrep_session;
 use std::path::Path;
 
+pub mod antigravity;
 pub mod claude;
 pub mod codex;
 pub mod gemini;
@@ -83,6 +84,7 @@ pub fn full_searchable(backend: &dyn Backend, origin: &Path) -> String {
 
 pub fn all() -> Vec<Box<dyn Backend>> {
     vec![
+        Box::new(antigravity::AntigravityBackend),
         Box::new(claude::ClaudeBackend),
         Box::new(codex::CodexBackend),
         Box::new(gemini::GeminiBackend),
