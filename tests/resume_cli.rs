@@ -64,6 +64,7 @@ impl Fixture {
             .env("CCR_CODEX_DIR", self.root.join("no-codex"))
             .env("CCR_GEMINI_DIR", self.root.join("no-gemini"))
             .env("CCR_OPENCODE_DIR", self.root.join("no-opencode"))
+            .env("CCR_ANTIGRAVITY_DIR", self.root.join("no-antigravity"))
             .env("PATH", path)
             .output()
             .expect("run ccr")
